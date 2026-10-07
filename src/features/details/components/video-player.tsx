@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { BackButton } from '@/components/shared/back-button';
 import { useAuth } from '@/features/auth/context/auth-context';
 import { HistoryService } from '@/features/history/services/history.service';
-import { checkAniembedExists } from '@/app/actions';
+
 
 type PlayerProvider = {
   id: string;
@@ -79,14 +79,9 @@ const PROVIDERS: PlayerProvider[] = [
         const anilistId = data?.data?.Media?.id;
         
         if (anilistId) {
-          const exists = await checkAniembedExists(anilistId, episode || 1);
-          if (exists) {
-            let url = `https://aniembed.se/e/${anilistId}/${episode}?lang=sub&autoplay=1`;
-            if (startAt && startAt > 0) url += `&t=${startAt}`;
-            return url;
-          } else {
-            return 'ERROR:NOT_FOUND';
-          }
+          let url = `https://aniembed.se/e/${anilistId}/${episode}?lang=sub&autoplay=1`;
+          if (startAt && startAt > 0) url += `&t=${startAt}`;
+          return url;
         } else {
           return 'ERROR:NOT_FOUND';
         }
